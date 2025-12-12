@@ -1,0 +1,19 @@
+### Criar Usuário (Sucesso)
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "admin@arcaderank.com",
+  "username": "admin",
+  "password": "senha123segura"
+}
+
+### Tentar Criar Duplicado (Deve dar erro 409)
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "admin@arcaderank.com",
+  "username": "admin",
+  "password": "outrasenha"
+}

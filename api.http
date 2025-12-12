@@ -33,3 +33,16 @@ GET http://localhost:3000/users
 ### Listar Usuários (COM TOKEN - Deve funcionar 200)
 GET http://localhost:3000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiZDI1YmJkZmEtMTdiYi00NmM2LWJhZDQtNzRjYzA4NGMxY2FjIiwiaWF0IjoxNzY1NTQwMjg4LCJleHAiOjE3NjU1NDM4ODh9.oU9BnuWyjTvIsYBniGlYLOuaZdjfdfKtJmwvQneAhnQ
+
+### Enviar Pontuação (Simular Jogo)
+POST http://localhost:3000/users/score
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiZDI1YmJkZmEtMTdiYi00NmM2LWJhZDQtNzRjYzA4NGMxY2FjIiwiaWF0IjoxNzY1NTQyNTMwLCJleHAiOjE3NjU1NDYxMzB9.pChZgATggJMK4zMMV30LacWIN5THsFDV57lJN1ER7mA
+
+{
+  "gameId": "snake",
+  "score": 150
+}
+
+### Buscar Top 10 (Ranking)
+GET http://localhost:3000/users/leaderboard

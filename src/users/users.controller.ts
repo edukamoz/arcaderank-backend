@@ -1,17 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AddScoreDto } from './dto/add-score.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
@@ -28,6 +30,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('leaderboard')
+  getLeaderboard() {
+    return this.usersService.getLeaderboard();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
@@ -41,5 +48,15 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('score')
+  addScore(@Req() req: any, @Body() addScoreDto: AddScoreDto) {
+    return this.usersService.addScore(
+      req.user.userId,
+      addScoreDto.gameId,
+      addScoreDto.score,
+    );
   }
 }

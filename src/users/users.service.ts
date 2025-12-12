@@ -80,4 +80,45 @@ export class UsersService {
       where: { email },
     });
   }
+
+  async addScore(userId: string, gameId: string, score: number) {
+    const user = await this.findOne(userId);
+    if (!user) throw new Error('User not found');
+
+    let { xp, level } = user;
+
+    xp += score;
+
+    let xpToNextLevel = level * 100;
+
+    while (xp >= xpToNextLevel) {
+      xp -= xpToNextLevel;
+      level++;
+      xpToNextLevel = level * 100;
+    }
+
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        xp,
+        level,
+      },
+      select: { id: true, username: true, level: true, xp: true },
+    });
+  }
+
+  async getLeaderboard() {
+    return this.prisma.user.findMany({
+      take: 10,
+      orderBy: {
+        xp: 'desc',
+      },
+      select: {
+        id: true,
+        username: true,
+        level: true,
+        xp: true,
+      },
+    });
+  }
 }

@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as Sentry from '@sentry/nestjs';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
+import { SentryInterceptor } from '../sentry.interceptor';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -13,6 +14,8 @@ async function bootstrap() {
   });
 
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalInterceptors(new SentryInterceptor());
 
   app.enableCors({
     origin: ['http://localhost:5173', 'https://arcaderank-frontend.vercel.app'],

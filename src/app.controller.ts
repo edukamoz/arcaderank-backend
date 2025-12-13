@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('debug-sentry')
+  triggerError() {
+    throw new Error('Erro Fatal de Teste no Backend!');
+  }
 }
